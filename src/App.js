@@ -12,6 +12,7 @@ import CommonDialog from "./components/Dialogs/CommonDialog";
 const App = ({ auth, state }) => {
   const [isActve, setActive] = useState(false);
   const [dialogBox, setDialogBox] = useState({});
+  console.log("checking state: ", state);
   useEffect(() => {
     if (auth?.accessToken) {
       setActive(true);

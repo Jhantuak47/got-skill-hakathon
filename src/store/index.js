@@ -12,11 +12,4 @@ const store = createStore(
   composeWithDevTools(applyMiddleware(thunk))
 );
 
-// const dispatch = store.dispatch;
-const data = addBooks({ id: 1, name: "Harry porter" });
-console.log("data", data);
-store.dispatch(data);
-
-console.log(store.getState());
-
 export default store;

@@ -26,15 +26,18 @@ function tournamentReducer(state = initialState, action) {
       };
 
     case ADD_MATCH_FORM_DATA:
+      let matches = {
+        ...state.matches,
+      };
+
+      matches.formData = {
+        ...matches.formData,
+        ...action.payload,
+      };
+
       return {
         ...state,
-        matches: {
-          ...state.matches,
-          formData: {
-            ...state.matches.formData,
-            ...action.paylod,
-          },
-        },
+        matches,
       };
 
     case ADD_FORM_DATA:

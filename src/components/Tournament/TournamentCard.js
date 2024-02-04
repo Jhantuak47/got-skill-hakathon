@@ -9,7 +9,13 @@ import {
   addTournamentMatch,
 } from "../../store/reducers/tournament/tournament.action";
 
-const TournamentCard = ({ tournament, setDialogBox, matchCount }) => {
+const TournamentCard = ({
+  tournament,
+  setDialogBox,
+  matchCount,
+  addMatchFormData,
+  addTournamentMatch,
+}) => {
   const handleOnChange = (label, data) => {
     addMatchFormData({ [label]: data });
   };
@@ -28,6 +34,7 @@ const TournamentCard = ({ tournament, setDialogBox, matchCount }) => {
                   matches: { formData },
                 },
               }) => {
+                console.log("checking form dtat controller: ", formData);
                 addTournamentMatch({
                   tournamentId: tournament.id,
                   ...formData,
@@ -76,14 +83,17 @@ const TournamentCard = ({ tournament, setDialogBox, matchCount }) => {
 
 export default connect(
   (state, { tournament: { id } }) => {
-    const { tournament } = state.tournament.data;
-    const matchCount = tournament.matches.filter(
+    const { tournament } = state;
+    const matchCount = tournament.matches.data.filter(
       (match) => match.tournamentId === id
-    );
+    ).length;
 
     return {
       matchCount,
     };
   },
-  () => {}
+  (dispatch, ownProps) => ({
+    addMatchFormData: (data) => dispatch(addMatchFormData(data)),
+    addTournamentMatch: (data) => dispatch(addTournamentMatch(data)),
+  })
 )(TournamentCard);

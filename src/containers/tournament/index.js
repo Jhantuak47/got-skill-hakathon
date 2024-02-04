@@ -12,13 +12,12 @@ const Tournament = ({
   addTournament,
   addFormData,
   setDialogBox,
-  formData,
 }) => {
   const handleOnChange = (label, data) => {
     addFormData({ [label]: data });
   };
 
-  console.log("chekcing form dat: ", formData);
+  console.log("tournmanent: ", tournaments);
 
   return (
     <>
@@ -58,7 +57,6 @@ const Tournament = ({
 const mapStateToProps = (state, ownProps) => {
   return {
     tournaments: state.tournament.data,
-    formData: state.tournament.formData,
     ...ownProps,
   };
 };

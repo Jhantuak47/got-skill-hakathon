@@ -8,14 +8,14 @@ import {
 export const addTournament = (data) => {
   return {
     type: ADD_TOURNAMENT,
-    payload: data,
+    payload: { ...data, id: randId() },
   };
 };
 
 export const addTournamentMatch = (data) => {
   return {
     type: ADD_MATCH,
-    payload: data,
+    payload: { ...data, id: randId() },
   };
 };
 
@@ -31,4 +31,8 @@ export const addMatchFormData = (data) => {
     type: ADD_MATCH_FORM_DATA,
     payload: data,
   };
+};
+
+const randId = () => {
+  return Math.random().toString(36).substring(2, 5);
 };
