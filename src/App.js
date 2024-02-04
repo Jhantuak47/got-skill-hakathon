@@ -1,25 +1,62 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import ReactRoute from "./routes";
+import { connect } from "react-redux";
+import { useEffect, useState } from "react";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import Dashboard from "./containers/dashboard";
+import PageNotFound from "./containers/404";
+import Layout from "./components/Layouts";
+import Tournament from "./containers/tournament";
+import CommonDialog from "./components/Dialogs/CommonDialog";
 
-function App() {
+const App = ({ auth, state }) => {
+  const [isActve, setActive] = useState(false);
+  const [dialogBox, setDialogBox] = useState({});
+  useEffect(() => {
+    if (auth?.accessToken) {
+      setActive(true);
+    } else {
+      setActive(false);
+    }
+  }, [auth?.accessToken]);
+
+  const showDialogBox = ({ showContent = () => {}, onSaveFormData = {} }) => {
+    return (
+      <CommonDialog
+        onCancle={() =>
+          setDialogBox((dialog) => ({ ...dialog, dialogBox: false }))
+        }
+        content={showContent()}
+        onSave={() => {
+          onSaveFormData(state);
+          setDialogBox((dialogBox) => ({ ...dialogBox, showDialog: false }));
+        }}
+      />
+    );
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+    <>
+      <Router>
+        <Routes>
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route
+            path="/tournament"
+            element={<Tournament setDialogBox={setDialogBox} />}
+          />
+        </Routes>
+      </Router>
 
-export default App;
+      {dialogBox?.showDialog && showDialogBox(dialogBox)}
+    </>
+  );
+};
+
+const mapStateToProps = (state) => {
+  const { auth } = state;
+  return {
+    auth,
+    state,
+  };
+};
+export default connect(mapStateToProps, null)(App);
