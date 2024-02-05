@@ -1,13 +1,10 @@
-import React, { useState } from "react";
-import { FaPlus } from "react-icons/fa6";
-import tournament from "../../containers/tournament";
+import React from "react";
 import { generateAddMatchForm } from "../../containers/tournament/utills/content";
-import CommonDialog from "../Dialogs/CommonDialog";
 import { connect } from "react-redux";
 import {
   addMatchFormData,
   addTournamentMatch,
-} from "../../store/reducers/tournament/tournament.action";
+} from "../../store/reducers/match/match.action";
 
 const TournamentCard = ({
   tournament,
@@ -20,6 +17,13 @@ const TournamentCard = ({
     addMatchFormData({ [label]: data });
   };
 
+  const onSaveFormData = ({ match: { formData } }) => {
+    addTournamentMatch({
+      tournamentId: tournament.id,
+      ...formData,
+    });
+  };
+
   return (
     <div className="tournament-card px-4 py-2 border-2 border-green-200 w-80 rounded-lg shadow-md hover:scale-105">
       <div className="card-heading flex justify-between text-center items-center mb-2">
@@ -29,17 +33,7 @@ const TournamentCard = ({
             setDialogBox({
               showDialog: true,
               showContent: () => generateAddMatchForm({ handleOnChange }),
-              onSaveFormData: ({
-                tournament: {
-                  matches: { formData },
-                },
-              }) => {
-                console.log("checking form dtat controller: ", formData);
-                addTournamentMatch({
-                  tournamentId: tournament.id,
-                  ...formData,
-                });
-              },
+              onSaveFormData,
             })
           }
           className="text-white font-semibold rounded-lg hover:cursor-pointer text-xs px-2 py-2 bg-green-500 hover:bg-green-400"
@@ -83,8 +77,8 @@ const TournamentCard = ({
 
 export default connect(
   (state, { tournament: { id } }) => {
-    const { tournament } = state;
-    const matchCount = tournament.matches.data.filter(
+    const { match } = state;
+    const matchCount = match.data.filter(
       (match) => match.tournamentId === id
     ).length;
 

@@ -1,18 +1,15 @@
 import "./App.css";
-import ReactRoute from "./routes";
 import { connect } from "react-redux";
 import { useEffect, useState } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Dashboard from "./containers/dashboard";
-import PageNotFound from "./containers/404";
-import Layout from "./components/Layouts";
 import Tournament from "./containers/tournament";
 import CommonDialog from "./components/Dialogs/CommonDialog";
 
 const App = ({ auth, state }) => {
   const [isActve, setActive] = useState(false);
   const [dialogBox, setDialogBox] = useState({});
-  console.log("checking state: ", state);
+
   useEffect(() => {
     if (auth?.accessToken) {
       setActive(true);

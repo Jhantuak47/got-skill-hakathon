@@ -17,8 +17,6 @@ const Tournament = ({
     addFormData({ [label]: data });
   };
 
-  console.log("tournmanent: ", tournaments);
-
   return (
     <>
       <Layout>
