@@ -1,10 +1,9 @@
 import "./App.css";
 import { connect } from "react-redux";
 import { useEffect, useState } from "react";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import Dashboard from "./containers/dashboard";
-import Tournament from "./containers/tournament";
+
 import CommonDialog from "./components/Dialogs/CommonDialog";
+import ReactRoute from "./routes";
 
 const App = ({ auth, state }) => {
   const [isActve, setActive] = useState(false);
@@ -35,17 +34,9 @@ const App = ({ auth, state }) => {
 
   return (
     <>
-      <Router>
-        <Routes>
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route
-            path="/tournament"
-            element={<Tournament setDialogBox={setDialogBox} />}
-          />
-        </Routes>
-      </Router>
-
       {dialogBox?.showDialog && showDialogBox(dialogBox)}
+
+      <ReactRoute setDialogBox={setDialogBox} />
     </>
   );
 };
